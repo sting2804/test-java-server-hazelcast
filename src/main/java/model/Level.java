@@ -1,15 +1,18 @@
 package model;
 
-public class Level {
-    private String id;
+
+import java.io.Serializable;
+
+public class Level implements Serializable {
+    private long id;
     private String name;
 
-    public Level(String id, String name) {
+    public Level(long id, String name) {
         this.id = id;
         this.name = name;
     }
 
-    public String getId() {
+    public long getId() {
         return id;
     }
 

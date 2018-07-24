@@ -1,37 +1,25 @@
 package model;
 
-public class User {
-    private String id;
-    private Level level;
-    private String result;
+import java.io.Serializable;
 
-    public User(String id, Level level, String result) {
+public class User implements Serializable{
+    private long id;
+    private String name;
+
+    public User(long id, String name) {
         this.id = id;
-        this.level = level;
-        this.result = result;
+        this.name = name;
     }
 
-    public User(String id, Level level) {
-        this(id, level, null);
+    public String getName() {
+        return name;
     }
 
-    public String getResult() {
-        return result;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public void setResult(String result) {
-        this.result = result;
-    }
-
-    public Level getLevel() {
-        return level;
-    }
-
-    public void setLevel(Level level) {
-        this.level = level;
-    }
-
-    public String getId() {
+    public long getId() {
         return id;
     }
 }
