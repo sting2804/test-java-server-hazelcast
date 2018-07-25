@@ -10,9 +10,6 @@ public class ServerNode {
 
     public static void main(String[] args) {
         Config config = new Config();
-        config.getListConfig("user").setMaxSize(20);
-        config.getListConfig("level").setMaxSize(20);
-        config.getListConfig("result").setMaxSize(20);
 
         HazelcastInstance server = Hazelcast.newHazelcastInstance(config);
         server.getClientService().addClientListener(new ClientListener() {
@@ -38,7 +35,7 @@ public class ServerNode {
             userList.add(new User(idGenerator.newId(), "name_" + i));
         }
         for (int i = 0; i < 21; i++) {
-            resultList.add(new Result(idGenerator.newId(), levelList.get(i % 2 == 0 ? 1 : 2), userList.get(10 - i / 2)));
+            resultList.add(new Result(idGenerator.newId(), levelList.get(i % 2 == 0 ? 1 : 2), userList.get(10 - i / 2), "result_" + i));
         }
     }
 }

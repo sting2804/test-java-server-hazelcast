@@ -55,6 +55,4 @@ fabric.properties
 .gradle/
 .idea/
 build/
-src/main/resources/
-src/test/
 /.idea/

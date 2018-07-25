@@ -7,19 +7,18 @@ import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import model.Result;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.security.InvalidParameterException;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class UserPutHandler extends UserHandler {
+public class UserPutHandler extends BaseHandler {
     @Override
     public void handle(HttpExchange he) throws IOException {
-        Headers requestHeaders = he.getRequestHeaders();
-        Set<Map.Entry<String, List<String>>> entries = requestHeaders.entrySet();
-        Map<String, Object> result = null;
-
         if (he.getRequestMethod().equalsIgnoreCase("PUT")) {
             InputStream is = he.getRequestBody();
             Reader isr = new InputStreamReader(is);
@@ -27,9 +26,9 @@ public class UserPutHandler extends UserHandler {
             try {
                 paramsElement = jsonParser.parse(isr);
                 try {
-                    List<Result> results = userService.setUserResult(paramsElement);
-                    log.info("user update result: " + result.toString());
-                    writeResult(he, results);
+                    Result resultUpdated = resultService.setUserResult(paramsElement);
+                    log.info("user update result: " + resultUpdated.toString());
+                    writeResult(he, resultUpdated);
                 } catch (InvalidParameterException e) {
                     log.severe(e.getLocalizedMessage());
                     writeError(he, e.getLocalizedMessage());
@@ -39,28 +38,8 @@ public class UserPutHandler extends UserHandler {
                 writeError(he, e.getLocalizedMessage());
             }
         }
+        writeError(he, "Unsupported request type");
     }
 
-    private void writeError(HttpExchange he, String localizedMessage) throws IOException {
-        he.sendResponseHeaders(400, 0);
-        OutputStream os = he.getResponseBody();
-        if (localizedMessage != null) {
-            os.write(localizedMessage.getBytes());
-        }
-        os.close();
-    }
 
-    private void writeResult(HttpExchange he, Object result) throws IOException {
-        if (result != null) {
-            he.getResponseHeaders().add("content-type", "application/json");
-            he.sendResponseHeaders(200, 0);
-        } else
-            he.sendResponseHeaders(400, 0);
-        OutputStream os = he.getResponseBody();
-        String response = gson.toJson(result);
-        if (response != null) {
-            os.write(response.getBytes());
-        }
-        os.close();
-    }
 }
