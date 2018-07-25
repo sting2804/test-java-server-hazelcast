@@ -69,7 +69,7 @@ public class ResultServiceTest {
         results = resultService.getUserTop(1);
         Assert.assertEquals(20, results.size());
         List<String> expectedValues = resultList.stream()
-                .sorted(Comparator.comparing(Result::getValue,Comparator.reverseOrder()))
+                .sorted(Comparator.comparing(Result::getValue, Comparator.reverseOrder()))
                 .map(Result::getValue)
                 .limit(20)
                 .collect(Collectors.toList());
@@ -84,15 +84,23 @@ public class ResultServiceTest {
         for (int i = 0; i < 25; i++) {
             levelList.add(new Level(i, "level_" + i));
         }
-        List results = resultService.getTopOfResultsByLevel(1);
+        List<Result> results = resultService.getTopOfResultsByLevel(0);
         Assert.assertEquals(0, results.size());
         for (int i = 0; i < 50; i++) {
-            resultList.add(new Result(i, levelList.get(i % 2 == 0 ? 1 : 2), userList.get(0), "value_" + i));
+            int levelId = 0;
+            if (i >= 20)
+                levelId = i % 2 == 0 ? 1 : 2;
+            resultList.add(new Result(i, levelList.get(levelId), userList.get(0), "value_" + i));
         }
         Assert.assertEquals(1, userList.size());
         Assert.assertEquals(25, levelList.size());
         Assert.assertEquals(50, resultList.size());
-        results = resultService.getUserTop(1);
+        results = resultService.getTopOfResultsByLevel(0);
+        List<Result> expectedValues = resultList.stream()
+                .filter(r -> r.getLevel().getId() == 0)
+                .sorted(Comparator.comparing(Result::getValue, Comparator.reverseOrder()))
+                .collect(Collectors.toList());
         Assert.assertEquals(20, results.size());
+        Assert.assertArrayEquals(expectedValues.toArray(), results.toArray());
     }
 }

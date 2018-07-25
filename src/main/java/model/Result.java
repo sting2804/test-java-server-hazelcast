@@ -1,6 +1,7 @@
 package model;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 public class Result implements Serializable {
     private long id;
@@ -55,5 +56,22 @@ public class Result implements Serializable {
                 ", user=" + user +
                 ", value='" + value + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Result result = (Result) o;
+        return id == result.id &&
+                Objects.equals(level, result.level) &&
+                Objects.equals(user, result.user) &&
+                Objects.equals(value, result.value);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(id, level, user, value);
     }
 }
