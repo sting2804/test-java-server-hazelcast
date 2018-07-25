@@ -66,8 +66,8 @@ public class ResultService {
                 r.setValue(resultParam);
                 resultList.add(r);
                 return r;
-            }
-            return null;
+            } else
+                throw new InvalidParameterException("result is not found.");
         }
     }
 
@@ -97,7 +97,7 @@ public class ResultService {
         List<Result> foundResults = resultList.stream()
                 .filter(entry ->
                         entry.getLevel().getId() == levelId)
-                .sorted(Comparator.comparingLong(Result::getId))
+                .sorted(Comparator.comparing(Result::getValue, Comparator.reverseOrder()))
                 .limit(TOP_SIZE)
                 .collect(Collectors.toList());
         return foundResults;

@@ -35,7 +35,13 @@ public class ServerNode {
             userList.add(new User(idGenerator.newId(), "name_" + i));
         }
         for (int i = 0; i < 21; i++) {
-            resultList.add(new Result(idGenerator.newId(), levelList.get(i % 2 == 0 ? 1 : 2), userList.get(10 - i / 2), "result_" + i));
+            int userIdParam = 10 - i / 2;
+            if (userIdParam >= 10)
+                userIdParam = 5;
+            resultList.add(new Result(idGenerator.newId(), levelList.get(i % 2 == 0 ? 1 : 2), userList.get(userIdParam), "result_" + i));
         }
+        userList.forEach(System.out::println);
+        levelList.forEach(System.out::println);
+        resultList.forEach(System.out::println);
     }
 }

@@ -46,4 +46,14 @@ public class Result implements Serializable {
     public void setValue(String value) {
         this.value = value;
     }
+
+    @Override
+    public String toString() {
+        return "Result{" +
+                "id=" + id +
+                ", level=" + level +
+                ", user=" + user +
+                ", value='" + value + '\'' +
+                '}';
+    }
 }

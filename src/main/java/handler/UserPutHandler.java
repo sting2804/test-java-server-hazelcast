@@ -27,7 +27,7 @@ public class UserPutHandler extends BaseHandler {
                 paramsElement = jsonParser.parse(isr);
                 try {
                     Result resultUpdated = resultService.setUserResult(paramsElement);
-                    log.info("user update result: " + resultUpdated.toString());
+                    log.info("user update result: " + resultUpdated);
                     writeResult(he, resultUpdated);
                 } catch (InvalidParameterException e) {
                     log.severe(e.getLocalizedMessage());
