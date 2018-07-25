@@ -1,17 +1,12 @@
-package hazelcast;
-
-import com.hazelcast.config.Config;
 import com.hazelcast.core.*;
 import model.Level;
 import model.Result;
 import model.User;
 
-public class ServerNode {
+public class HazelcastNode {
 
     public static void main(String[] args) {
-        Config config = new Config();
-
-        HazelcastInstance server = Hazelcast.newHazelcastInstance(config);
+        HazelcastInstance server = Hazelcast.newHazelcastInstance();
         server.getClientService().addClientListener(new ClientListener() {
             @Override
             public void clientConnected(Client client) {
